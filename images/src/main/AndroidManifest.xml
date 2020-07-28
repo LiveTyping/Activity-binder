@@ -1,15 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.livetyping.images">
-
-    <application>
-        <provider
-            android:name=".photo.DefaultProvider"
-            android:authorities="com.livetyping.images.default_provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/default_file_paths" />
-        </provider>
-    </application>
-</manifest>
+<manifest package="com.livetyping.images" />

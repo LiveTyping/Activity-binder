@@ -2,33 +2,33 @@ package com.livetyping.activitybinder
 
 import android.app.Application
 import com.livetyping.facebook.FacebookInitializer
+import com.livetyping.google.GoogleInitializer
 import com.livetyping.images.ImagesBinder
-import com.livetyping.instagram.InstagramInitializer
 import com.livetyping.logincore.SocialLoginBinder
 import com.livetyping.permission.PermissionBinder
 import com.livetyping.vk.VkInitializer
 
 class BinderExampleApplication : Application() {
 
-    val socialLoginBinder: SocialLoginBinder by lazy {
+    val socialLoginBinder by lazy {
         SocialLoginBinder()
     }
 
-    val permissionBinder: PermissionBinder by lazy {
+    val permissionBinder by lazy {
         PermissionBinder()
     }
 
-    val testImagesBinder: ImagesBinder by lazy {
+    val testImagesBinder by lazy {
         ImagesBinder(applicationContext.packageName + ".provider", R.xml.file_path)
     }
 
     override fun onCreate() {
         super.onCreate()
-        socialLoginBinder.initializeNetworks(this,
-                listOf(
-                        VkInitializer(),
-                        FacebookInitializer(),
-                        InstagramInitializer()
-                ))
+        val socialsInitializers = listOf(
+            VkInitializer(),
+            FacebookInitializer(),
+            GoogleInitializer()
+        )
+        socialLoginBinder.initializeNetworks(this, socialsInitializers)
     }
 }

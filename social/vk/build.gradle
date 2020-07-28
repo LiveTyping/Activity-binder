@@ -1,14 +1,6 @@
 apply from: "$rootDir//kotlin_android_library.gradle"
 apply from: "$rootDir//social/social_login_item.gradle"
-android {
-    buildscript {
-        repositories {
-            mavenCentral()
-        }
-    }
-}
 
 dependencies {
-    implementation 'com.vk:androidsdk:1.6.9'
+    implementation "com.vk:androidsdk:$versions.vk"
 }
-

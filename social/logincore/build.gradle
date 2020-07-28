@@ -2,5 +2,4 @@ apply from: "$rootDir//kotlin_android_library.gradle"
 
 dependencies {
     implementation project(":core")
-
 }

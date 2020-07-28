@@ -1,0 +1,16 @@
+ext.versions = [
+
+        // AndroidX
+        material         : '1.1.0-alpha09',
+        constraint_layout: '2.0.0-beta2',
+        exifinterface    : '1.1.0-beta01',
+
+        // Google services
+        auth             : '17.0.0',
+
+        // Facebook
+        facebook         : '5.4.0',
+
+        // VK
+        vk               : '2.1.1'
+]

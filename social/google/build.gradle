@@ -1,14 +1,6 @@
 apply from: "$rootDir//kotlin_android_library.gradle"
 apply from: "$rootDir//social/social_login_item.gradle"
 
-android {
-    buildscript {
-        repositories {
-            jcenter()
-        }
-    }
-}
-
 dependencies {
-    implementation "com.google.android.gms:play-services-auth:16.0.1"
+    implementation "com.google.android.gms:play-services-auth:$versions.auth"
 }

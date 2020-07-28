@@ -2,12 +2,12 @@ package com.livetyping.permission
 
 import android.app.Activity
 import android.content.Intent
+import androidx.annotation.StyleRes
 import androidx.core.app.ActivityCompat
 
-
 internal class GlobalPermissionRequest(
-        private val preSettingsClass: Class<out PreSettingsActivity>,
-        resultListener: (HashMap<String, Boolean>) -> Unit
+    private val preSettingsClass: Class<out PreSettingsActivity>,
+    resultListener: (Map<String, Boolean>) -> Unit
 ) : PermissionRequest(resultListener) {
 
     companion object {
@@ -15,26 +15,33 @@ internal class GlobalPermissionRequest(
         internal const val PERMISSION_KEY = "PermissionRepository.PermissionKey"
     }
 
-
-    override fun onPermissionsNeedDenied(activity: Activity) {
-        ActivityCompat.requestPermissions(activity, permissions.toList().toTypedArray(), requestCode)
+    override fun onPermissionsDenied(activity: Activity, @StyleRes themeResId: Int) {
+        val permissions = permissions.toTypedArray()
+        ActivityCompat.requestPermissions(activity, permissions, requestCode)
     }
 
-
-    override fun afterRequest(activity: Activity) {
-        if (areAllPermissionGranted(activity)) {
+    override fun afterRequest(activity: Activity, @StyleRes themeResId: Int) {
+        if (areAllPermissionsGranted(activity)) {
             invokeResult(activity)
         } else {
-            val intent = Intent(activity, preSettingsClass)
-            with(intent) {
-                putExtra(PERMISSION_KEY, permissions.toTypedArray())
-                putExtra(PERMISSION_REQUEST_CODE_KEY, requestCode)
-            }
-            activity.startActivityForResult(intent, requestCode)
+            onNotAllPermissionsGranted(activity)
         }
     }
 
-    override fun afterSettingsActivityResult(requestCode: Int, data: Intent?, activity: Activity) {
-        bunchNeedPermissions(activity)
+    private fun onNotAllPermissionsGranted(activity: Activity) {
+        val intent = Intent(activity, preSettingsClass)
+        val permissions = permissions.toTypedArray()
+        with(intent) {
+            putExtra(PERMISSION_KEY, permissions)
+            putExtra(PERMISSION_REQUEST_CODE_KEY, requestCode)
+        }
+        activity.startActivityForResult(intent, requestCode)
+    }
+
+    override fun afterSettingsActivityResult(
+        activity: Activity,
+        @StyleRes themeResId: Int
+    ) {
+        bunchPermissions(activity, themeResId)
     }
 }

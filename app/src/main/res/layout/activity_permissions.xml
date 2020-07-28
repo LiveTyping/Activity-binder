@@ -6,73 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".PermissionExampleActivity">
 
-
     <Button
         android:id="@+id/single_passive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="8dp"
-        android:text="single passive"
-        app:layout_constraintBottom_toTopOf="@+id/single_active"
-        app:layout_constraintEnd_toStartOf="@+id/multiply_passive"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_margin="16dp"
+        android:text="@string/single_passive_permission_button_title"
+        app:layout_constraintBottom_toTopOf="@id/single_active"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/multiply_passive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="multiply passive"
-        app:layout_constraintBottom_toTopOf="@+id/multiply_active"
+        android:layout_margin="16dp"
+        android:text="@string/multiply_passive_permissions_button_title"
+        app:layout_constraintBottom_toTopOf="@id/multiply_active"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/single_passive" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/single_active"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="single active"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/single_passive"
-        app:layout_constraintStart_toStartOf="@+id/single_passive"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="16dp"
+        android:text="@string/single_active_permission_button_title"
+        app:layout_constraintBottom_toTopOf="@id/single_global"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/single_passive"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/multiply_active"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="multiply active"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/multiply_passive"
-        app:layout_constraintStart_toStartOf="@+id/multiply_passive"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="16dp"
+        android:text="@string/multiply_active_permissions_button_title"
+        app:layout_constraintBottom_toTopOf="@id/multiply_global"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/multiply_passive"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/single_global"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="single global"
-        app:layout_constraintEnd_toEndOf="@+id/single_active"
-        app:layout_constraintStart_toStartOf="@+id/single_active"
-        app:layout_constraintTop_toBottomOf="@+id/single_active" />
+        android:layout_margin="16dp"
+        android:text="@string/single_global_permission_button_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/single_active"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/multiply_global"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="multiply global"
-        app:layout_constraintEnd_toEndOf="@+id/multiply_active"
-        app:layout_constraintStart_toStartOf="@+id/multiply_active"
-        app:layout_constraintTop_toBottomOf="@+id/multiply_active" />
+        android:layout_margin="16dp"
+        android:text="@string/multiply_global_permission_button_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/multiply_active"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,22 +28,9 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/login_instagram"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/login_vk"
-        app:layout_constraintTop_toTopOf="@+id/login_vk" />
-
-    <TextView
-        android:id="@+id/login_instagram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Instagram"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/login_fb"
+        app:layout_constraintStart_toEndOf="@+id/login_vk"
         app:layout_constraintTop_toTopOf="@+id/login_vk" />
 
     <TextView

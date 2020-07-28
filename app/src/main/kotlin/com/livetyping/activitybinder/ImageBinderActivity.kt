@@ -47,7 +47,10 @@ class ImageBinderActivity : AppCompatActivity() {
         }
 
         default_photo.setOnClickListener {
-            permissionBinder.activePermission(Manifest.permission.CAMERA, getString(R.string.need_camera_permission)) {
+            permissionBinder.activePermission(
+                Manifest.permission.CAMERA,
+                getString(R.string.need_camera_permission)
+            ) {
                 if (it) {
                     val request = PhotoRequestDefaultPath()
                     requestAndBindImage(request)
@@ -56,17 +59,24 @@ class ImageBinderActivity : AppCompatActivity() {
         }
 
         cahche_path_photo.setOnClickListener {
-            permissionBinder.activePermission(Manifest.permission.CAMERA, getString(R.string.need_camera_permission)) {
+            permissionBinder.activePermission(
+                Manifest.permission.CAMERA,
+                getString(R.string.need_camera_permission)
+            ) {
                 if (it) {
-                    val request = PhotoRequestCachePath("cache_files")
+                    val request = PhotoRequestCachePath("cache_files", maxFileSize = 1000000)
                     requestAndBindImage(request)
                 }
             }
         }
 
         external_cahce_path_photo.setOnClickListener {
-            val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
+            val permissions =
+                listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            permissionBinder.activePermission(
+                permissions,
+                getString(R.string.need_camera_and_external_storage_permission)
+            ) {
                 if (it.all { it.value }) {
                     val request = PhotoRequestExternalCachePath("external_app_cache_path")
                     requestAndBindImage(request)
@@ -75,8 +85,12 @@ class ImageBinderActivity : AppCompatActivity() {
         }
 
         external_files_path_photo.setOnClickListener {
-            val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
+            val permissions =
+                listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            permissionBinder.activePermission(
+                permissions,
+                getString(R.string.need_camera_and_external_storage_permission)
+            ) {
                 if (it.all { it.value }) {
                     val request = PhotoRequestExternalFilesPath("external_app_files_path")
                     requestAndBindImage(request)
@@ -85,8 +99,12 @@ class ImageBinderActivity : AppCompatActivity() {
         }
 
         external_path_photo.setOnClickListener {
-            val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
+            val permissions =
+                listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            permissionBinder.activePermission(
+                permissions,
+                getString(R.string.need_camera_and_external_storage_permission)
+            ) {
                 if (it.all { it.value }) {
                     val request = PhotoRequestExternalPath("external_files")
                     requestAndBindImage(request)
@@ -95,8 +113,12 @@ class ImageBinderActivity : AppCompatActivity() {
         }
 
         files_path_photo.setOnClickListener {
-            val permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            permissionBinder.activePermission(permissions, getString(R.string.need_camera_and_external_storage_permission)) {
+            val permissions =
+                listOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            permissionBinder.activePermission(
+                permissions,
+                getString(R.string.need_camera_and_external_storage_permission)
+            ) {
                 if (it.all { it.value }) {
                     val request = PhotoRequestFilesPath("images")
                     requestAndBindImage(request)
@@ -120,13 +142,17 @@ class ImageBinderActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imagesBinder.onActivityResult(requestCode, resultCode, data, this)
-        permissionBinder.onActivityResult(requestCode, data, this)
+        permissionBinder.onActivityResult(requestCode, this)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         imagesBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionBinder.onRequestPermissionResult(requestCode, grantResults)
+        permissionBinder.onRequestPermissionResult(requestCode)
     }
 
     private fun requestAndBindImage(request: ImageRequest<out File>) {

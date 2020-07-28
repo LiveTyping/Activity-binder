@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SingleActivePermissionDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@android:color/holo_green_dark</item>
+        <item name="android:textColorPrimary">#ff00</item>
+    </style>
+
 </resources>

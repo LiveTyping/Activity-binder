@@ -6,6 +6,6 @@ import com.livetyping.logincore.SocialInitializer
 class GoogleInitializer : SocialInitializer {
 
     override fun init(app: Application) {
-        // pass (google does not require static initialization)
+        // No initialization need
     }
 }

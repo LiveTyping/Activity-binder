@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.USE_SIP" />
-    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
@@ -46,15 +46,6 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <!--Instagram-->
-        <meta-data
-            android:name="com.nikola.jakshic.instagramauth.ClientId"
-            android:value="99cc4be19d2449e6897c00089b1b0304" />
-
-        <meta-data
-            android:name="com.nikola.jakshic.instagramauth.RedirectUri"
-            android:value="https://livetyping.ru/" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.livetyping.activity_binder.provider"
@@ -64,7 +55,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
-
 
     </application>
 

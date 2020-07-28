@@ -1,14 +1,6 @@
 apply from: "$rootDir//kotlin_android_library.gradle"
 apply from: "$rootDir//social/social_login_item.gradle"
 
-android {
-    buildscript {
-        repositories {
-            jcenter()
-        }
-    }
-}
-
 dependencies {
-    implementation("com.facebook.android:facebook-login:4.36.0")
+    implementation "com.facebook.android:facebook-login:$versions.facebook"
 }

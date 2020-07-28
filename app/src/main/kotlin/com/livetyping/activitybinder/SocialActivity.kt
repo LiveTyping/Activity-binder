@@ -5,65 +5,119 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.GoogleAuthUtil
+import com.livetyping.facebook.FacebookLoginResult
 import com.livetyping.facebook.FacebookNetwork
 import com.livetyping.google.GoogleAccountNetwork
+import com.livetyping.google.GoogleAccountResult
 import com.livetyping.google.GoogleTokenNetwork
-import com.livetyping.instagram.InstagramNetwork
+import com.livetyping.google.GoogleTokenResult
 import com.livetyping.logincore.SocialLoginBinder
+import com.livetyping.logincore.SocialLoginResult
+import com.livetyping.logincore.SocialNetwork
+import com.livetyping.vk.VkLoginResult
 import com.livetyping.vk.VkNetwork
 import kotlinx.android.synthetic.main.activity_social.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
+class SocialActivity : AppCompatActivity(), CoroutineScope {
 
-class SocialActivity : AppCompatActivity() {
+    companion object {
+        private const val SCOPES = "oauth2:profile email"
+        private const val GOOGLE_ANDROID_CLIENT_ID =
+            "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
+    }
 
     private lateinit var socialLoginBinder: SocialLoginBinder
 
-    private companion object {
-        const val GOOGLE_ANDROID_CLIENT_ID = "962786784406-vrmqfde2mtng3vei55djkqehd5me9t42.apps.googleusercontent.com"
-    }
+    private val job = SupervisorJob()
+    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_social)
 
-        socialLoginBinder = (application as BinderExampleApplication).socialLoginBinder // can be injected with dagger
+        // can be injected with dagger
+        socialLoginBinder = (application as BinderExampleApplication).socialLoginBinder
 
+        initVkLogin()
+        initFacebookLogin()
+        initGoogleAccountLogin()
+        initGoogleTokenLogin()
+    }
+
+    private fun initVkLogin() {
+        val socialNetwork = VkNetwork()
         login_vk.setOnClickListener {
-            socialLoginBinder.loginWith(VkNetwork()) {
-                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
-            }
+            loginWith(socialNetwork, ::onSuccessVkLogin)
         }
+    }
 
+    private fun <T : SocialLoginResult> loginWith(
+        socialNetwork: SocialNetwork<T>,
+        onSuccess: (result: T) -> Unit
+    ) = socialLoginBinder.loginWith(socialNetwork, onSuccess, ::onFail)
+
+    private fun initFacebookLogin() {
+        val socialNetwork = FacebookNetwork()
         login_fb.setOnClickListener {
-            socialLoginBinder.loginWith(FacebookNetwork()) {
-                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
-            }
+            loginWith(socialNetwork, ::onSuccessFacebookLogin)
         }
-        login_instagram.setOnClickListener {
-            socialLoginBinder.loginWith(InstagramNetwork()) {
-                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
-            }
-        }
+    }
 
+    private fun initGoogleAccountLogin() {
+        val socialNetwork = GoogleAccountNetwork(GOOGLE_ANDROID_CLIENT_ID)
         login_google.setOnClickListener {
-            socialLoginBinder.loginWith(GoogleAccountNetwork(GOOGLE_ANDROID_CLIENT_ID)) {
-                GlobalScope.launch(Dispatchers.IO) {
-                    val scopes = "oauth2:profile email"
-                    val token = GoogleAuthUtil.getToken(this@SocialActivity, it.account.account, scopes)
-                    GlobalScope.launch(Dispatchers.Main) {
-                        Toast.makeText(this@SocialActivity, token.toString(), Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+            loginWith(socialNetwork, ::onSuccessGoogleAccountLogin)
         }
+    }
+
+    private fun initGoogleTokenLogin() {
+        val socialNetwork = GoogleTokenNetwork(GOOGLE_ANDROID_CLIENT_ID)
         login_google_token.setOnClickListener {
-            socialLoginBinder.loginWith(GoogleTokenNetwork(GOOGLE_ANDROID_CLIENT_ID)) {
-                Toast.makeText(this, it.accessToken, Toast.LENGTH_SHORT).show()
-            }
+            loginWith(socialNetwork, ::onSuccessGoogleTokenLogin)
         }
+    }
+
+    private fun onSuccessVkLogin(result: VkLoginResult) {
+        val token = result.accessToken
+        val email = result.email
+        showToast("$email\n$token")
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this@SocialActivity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onSuccessFacebookLogin(result: FacebookLoginResult) {
+        val token = result.accessToken
+        val appId = result.applicationId
+        val userId = result.userId
+        showToast("$userId\n$appId\n$token")
+    }
+
+    private fun onSuccessGoogleAccountLogin(result: GoogleAccountResult) {
+        launch {
+            val account = result.googleAccount.account
+            val token = withContext(Dispatchers.IO) {
+                GoogleAuthUtil.getToken(this@SocialActivity, account, SCOPES)
+            }
+            showToast(token)
+        }
+    }
+
+    private fun onSuccessGoogleTokenLogin(result: GoogleTokenResult) {
+        val token = result.accessToken
+        showToast(token)
+    }
+
+    private fun onFail(exception: Exception) {
+        showToast(exception.localizedMessage)
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
     override fun onStart() {
@@ -79,6 +133,5 @@ class SocialActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         socialLoginBinder.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
-
     }
 }

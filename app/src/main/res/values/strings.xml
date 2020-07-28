@@ -11,4 +11,10 @@
 
     <string name="need_camera_permission">Need permission to camera</string>
     <string name="need_camera_and_external_storage_permission">Need permission for camera and external storage</string>
+    <string name="single_passive_permission_button_title">single passive</string>
+    <string name="multiply_passive_permissions_button_title">multiply passive</string>
+    <string name="single_active_permission_button_title">single active</string>
+    <string name="multiply_active_permissions_button_title">multiply active</string>
+    <string name="single_global_permission_button_title">single global</string>
+    <string name="multiply_global_permission_button_title">multiply global</string>
 </resources>
